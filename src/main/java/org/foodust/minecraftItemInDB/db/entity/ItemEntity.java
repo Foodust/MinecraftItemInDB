@@ -1,18 +1,14 @@
 package org.foodust.minecraftItemInDB.db.entity;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.experimental.SuperBuilder;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @Table(name = "item")
-@SuperBuilder
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -25,14 +21,17 @@ public class ItemEntity {
     @Column(name = "material")
     private String material;
 
-    @Column(name = "display_name",length = 648)
-    private String displayName;
+    @Column(name = "display_name", length = 648)
+    @Builder.Default
+    private String displayName = null;
 
     @Column(name = "lore")
-    private List<String> lore;
+    @Builder.Default
+    private List<String> lore = null;
 
     @Column(name = "custom_model_data")
-    private Integer customModelData;
+    @Builder.Default
+    private Integer customModelData = null;
 
     @Lob
     @Column(name = "item_blob", columnDefinition = "BYTEA")

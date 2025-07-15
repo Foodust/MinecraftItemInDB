@@ -15,8 +15,9 @@ public enum BaseMessage {
 
     // command
     COMMAND_ITEM("아이템"),
-    COMMAND_SET("설정"),
+    COMMAND_SET("등록"),
     COMMAND_GET("가져오기"),
+    COMMAND_INFO("정보"),
     COMMAND_RELOAD("리로드"),
     // 기본
     DEFAULT("기본"),

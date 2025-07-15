@@ -2,6 +2,7 @@ package org.foodust.minecraftItemInDB.module;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.util.io.BukkitObjectInputStream;
 import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.foodust.minecraftItemInDB.MinecraftItemInDB;
@@ -36,10 +37,51 @@ public class ItemModule {
         ItemData.Items = items;
     }
 
-    public void saveItem(ItemStack item, Boolean force) throws IOException {
-
-
+    public ItemEntity saveItem(ItemStack item, Long id) throws IOException {
+        ItemEntity itemEntity = itemRepository.findById(id).orElse(null);
+        if (itemEntity == null) return null;
         byte[] bytes = serializeItem(item);
+        itemEntity.setMaterial(item.getType().toString());
+        itemEntity.setItemBlob(bytes);
+
+        ItemMeta itemMeta = item.getItemMeta();
+        if (itemMeta != null) {
+            if (itemMeta.hasDisplayName()) {
+                itemEntity.setDisplayName(itemMeta.getDisplayName());
+            }
+            if (itemMeta.hasLore()) {
+                itemEntity.setLore(itemMeta.getLore());
+            }
+            if (itemMeta.hasCustomModelData()) {
+                itemEntity.setCustomModelData(itemMeta.getCustomModelData());
+            }
+        }
+        return itemRepository.save(itemEntity);
+    }
+
+    public ItemEntity saveItem(ItemStack item) throws IOException {
+        ItemEntity.ItemEntityBuilder builder = ItemEntity.builder();
+        builder.material(item.getType().toString());
+        byte[] bytes = serializeItem(item);
+        builder.itemBlob(bytes);
+
+        ItemMeta itemMeta = item.getItemMeta();
+        if (itemMeta != null) {
+            if (itemMeta.hasDisplayName()) {
+                builder.displayName(itemMeta.getDisplayName());
+            }
+            if (itemMeta.hasLore()) {
+                builder.lore(itemMeta.getLore());
+            }
+            if (itemMeta.hasCustomModelData()) {
+                builder.customModelData(itemMeta.getCustomModelData());
+            }
+        }
+        return itemRepository.save(builder.build());
+    }
+
+    public ItemEntity getInfo(ItemStack item) {
+        return null;
     }
 
     public ItemStack getItemStackByMaterial(String material) {

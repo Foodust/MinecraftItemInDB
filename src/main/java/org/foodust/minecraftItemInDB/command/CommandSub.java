@@ -29,12 +29,14 @@ public class CommandSub implements TabCompleter {
             });
             return filterCompletions(completions, args[1]);
         }
+
         if (args.length == 2 && (args[0].equalsIgnoreCase(BaseMessage.COMMAND_GET.getMessage()))) {
             ItemData.Items.forEach((aLong, itemEntity) -> {
                 completions.add(itemEntity.getDisplayName());
             });
             return filterCompletions(completions, args[1]);
         }
+
         return completions;
     }
 
