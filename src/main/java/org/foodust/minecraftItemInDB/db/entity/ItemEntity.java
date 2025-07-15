@@ -20,4 +20,11 @@ public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "display_name",length = 648)
+    private String displayName;
+
+    @Column(name = "custom_model_data")
+    private Integer customModelData;
+
 }

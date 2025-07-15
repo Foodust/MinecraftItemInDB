@@ -11,7 +11,8 @@ public final class MinecraftItemInDB extends JavaPlugin {
 
     private Plugin plugin;
     private ItemRepository itemRepository;
-
+    // Spring 컨텍스트
+    private AnnotationConfigApplicationContext context;
     @Override
     public void onEnable() {
         // Plugin startup logic
@@ -28,8 +29,7 @@ public final class MinecraftItemInDB extends JavaPlugin {
 
 
             getLogger().info("데이터베이스 연결 성공!");
-        } catch (Exception ignore) {
-
+        } catch (Exception e) {
             getLogger().severe("데이터베이스 연결 실패: " + e.getMessage());
             getServer().getPluginManager().disablePlugin(this);
             return;
