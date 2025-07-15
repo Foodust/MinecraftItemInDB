@@ -14,4 +14,6 @@ libraries:
   - "org.springframework:spring-expression:5.3.19"
   - "org.reflections:reflections:0.10.2"
   - "org.hibernate:hibernate-core:5.6.9.Final"
-description: Voice To STT
+description: Minecraft Item In DB
+commands:
+  아이템:

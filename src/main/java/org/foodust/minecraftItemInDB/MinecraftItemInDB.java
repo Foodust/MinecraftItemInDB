@@ -3,6 +3,8 @@ package org.foodust.minecraftItemInDB;
 import lombok.Getter;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.foodust.minecraftItemInDB.command.CommandManager;
+import org.foodust.minecraftItemInDB.module.ItemModule;
 import org.foodust.minecraftItemInDB.db.repository.ItemRepository;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -11,12 +13,15 @@ public final class MinecraftItemInDB extends JavaPlugin {
 
     private Plugin plugin;
     private ItemRepository itemRepository;
+    private ItemModule itemModule;
     // Spring 컨텍스트
     private AnnotationConfigApplicationContext context;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
         this.plugin = this;
+
 
         // Spring 컨텍스트 초기화
         try {
@@ -25,8 +30,10 @@ public final class MinecraftItemInDB extends JavaPlugin {
             context.scan("org.foodust.minecraftItemInDB");
             context.refresh();
 
-            itemRepository = (ItemRepository) context.getBean("itemRepository");
+            itemRepository = context.getBean(ItemRepository.class);
+            itemModule = context.getBean(ItemModule.class);
 
+            CommandManager commandManager = new CommandManager(this);
 
             getLogger().info("데이터베이스 연결 성공!");
         } catch (Exception e) {
