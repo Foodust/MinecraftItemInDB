@@ -29,7 +29,7 @@ public class CommandModule {
         ItemEntity itemEntity = null;
         try {
             if (data.length > 1) {
-                String stringId = data[0];
+                String stringId = data[1];
                 long id = Long.parseLong(stringId);
                 itemEntity = itemModule.saveItem(item, id);
             } else {
@@ -47,7 +47,7 @@ public class CommandModule {
     public void commandGet(CommandSender sender, String[] data) {
         if (!(sender instanceof Player player)) return;
         if (data.length < 1) return;
-        String displayName = data[0];
+        String displayName = data[1];
         List<ItemStack> items = itemModule.getItemStackByDisplayName(displayName);
         player.getInventory().addItem(items.toArray(new ItemStack[0]));
     }
