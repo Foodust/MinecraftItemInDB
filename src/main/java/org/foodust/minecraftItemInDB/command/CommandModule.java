@@ -9,6 +9,7 @@ import org.foodust.minecraftItemInDB.MinecraftItemInDB;
 import org.foodust.minecraftItemInDB.db.entity.ItemEntity;
 import org.foodust.minecraftItemInDB.module.ItemModule;
 
+import java.util.List;
 import java.util.Objects;
 
 public class CommandModule {
@@ -43,7 +44,11 @@ public class CommandModule {
     }
 
     public void commandGet(CommandSender sender, String[] data) {
-
+        if (!(sender instanceof Player player)) return;
+        if (data.length < 1) return;
+        String displayName = data[0];
+        List<ItemStack> items = itemModule.getItemStackByDisplayName(displayName);
+        player.getInventory().addItem(items.toArray(new ItemStack[0]));
     }
 
     public void commandInfo(CommandSender sender, String[] data) {

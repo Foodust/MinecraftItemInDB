@@ -99,8 +99,17 @@ public class ItemModule {
         return null;
     }
 
-    public ItemStack getItemStackByDisplayName(String displayName) {
-        return null;
+    public List<ItemStack> getItemStackByDisplayName(String displayName) {
+        List<ItemStack> items = new ArrayList<>();
+        List<ItemEntity> byDisplayName = itemRepository.findByDisplayName(displayName);
+        byDisplayName.forEach(entity -> {
+            try {
+                ItemStack newItem = deserializeItem(entity.getItemBlob());
+                items.add(newItem);
+            } catch (Exception ignore) {
+            }
+        });
+        return items;
     }
 
     // 저장
