@@ -130,24 +130,24 @@ public class ItemModule {
     }
 
     public Specification<ItemEntity> matches(ItemStack item) {
-        return (root, query, cb) -> {
+        return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             String material = item.getType().toString();
             ItemMeta meta = item.getItemMeta();
             if (material != null) {
-                predicates.add(cb.equal(root.get("material"), material));
+                predicates.add(criteriaBuilder.equal(root.get("material"), material));
             }
             if (meta != null) {
                 if (meta.hasDisplayName()) {
-                    predicates.add(cb.equal(root.get("display_name"), meta.getDisplayName()));
+                    predicates.add(criteriaBuilder.equal(root.get("display_name"), meta.getDisplayName()));
                 }
 
                 if (meta.hasCustomModelData()) {
-                    predicates.add(cb.equal(root.get("custom_model_data"), meta.getCustomModelData()));
+                    predicates.add(criteriaBuilder.equal(root.get("custom_model_data"), meta.getCustomModelData()));
                 }
             }
 
-            return cb.and(predicates.toArray(new Predicate[0]));
+            return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
 }

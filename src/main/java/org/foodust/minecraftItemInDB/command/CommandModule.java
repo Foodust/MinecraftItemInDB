@@ -40,6 +40,7 @@ public class CommandModule {
         }
         if (itemEntity != null) {
             sender.sendMessage(String.format("§r아이템이 설정됨 - id : %d", itemEntity.getId()));
+            itemModule.initialize();
         }
     }
 
