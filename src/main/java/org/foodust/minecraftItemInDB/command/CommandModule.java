@@ -4,9 +4,12 @@ import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.foodust.minecraftItemInDB.MinecraftItemInDB;
 import org.foodust.minecraftItemInDB.db.entity.ItemEntity;
 import org.foodust.minecraftItemInDB.module.ItemModule;
+
+import java.util.Objects;
 
 public class CommandModule {
 
@@ -44,12 +47,31 @@ public class CommandModule {
     }
 
     public void commandInfo(CommandSender sender, String[] data) {
-
-
-        sender.sendMessage("========정보=======");
-        sender.sendMessage();
-        sender.sendMessage();
-        sender.sendMessage("==================");
+        if (!(sender instanceof Player player)) return;
+        ItemStack item = player.getInventory().getItemInMainHand();
+        if (item.getType() == Material.AIR) return;
+        ItemMeta meta = item.getItemMeta();
+        sender.sendMessage("======== 아이템 정보 ========");
+        sender.sendMessage("아이템 종류: " + item.getType().name());
+        if (meta != null && meta.hasDisplayName()) {
+            sender.sendMessage("표시 이름: " + meta.getDisplayName());
+        } else {
+            sender.sendMessage("표시 이름: " + "없음");
+        }
+        if (meta != null && meta.hasCustomModelData()) {
+            sender.sendMessage("모델 데이터: " + meta.getCustomModelData());
+        } else {
+            sender.sendMessage("모델 데이터: 없음");
+        }
+        if (meta != null && meta.hasLore()) {
+            sender.sendMessage("아이템 설명:");
+            for (String line : Objects.requireNonNull(meta.getLore())) {
+                sender.sendMessage("- " + line);
+            }
+        } else {
+            sender.sendMessage("아이템 설명: 없음");
+        }
+        sender.sendMessage("============================");
     }
 
     public void commandReload(CommandSender sender, String[] data) {

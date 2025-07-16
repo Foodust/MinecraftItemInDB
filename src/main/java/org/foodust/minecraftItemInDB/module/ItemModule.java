@@ -8,11 +8,14 @@ import org.bukkit.util.io.BukkitObjectOutputStream;
 import org.foodust.minecraftItemInDB.MinecraftItemInDB;
 import org.foodust.minecraftItemInDB.db.entity.ItemEntity;
 import org.foodust.minecraftItemInDB.db.repository.ItemRepository;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.Predicate;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -81,7 +84,7 @@ public class ItemModule {
     }
 
     public ItemEntity getInfo(ItemStack item) {
-        return null;
+        return itemRepository.findOne(matches(item)).orElse(null);
     }
 
     public ItemStack getItemStackByMaterial(String material) {
@@ -115,5 +118,27 @@ public class ItemModule {
              BukkitObjectInputStream dataInput = new BukkitObjectInputStream(inputStream)) {
             return (ItemStack) dataInput.readObject();
         }
+    }
+
+    public Specification<ItemEntity> matches(ItemStack item) {
+        return (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            String material = item.getType().toString();
+            ItemMeta meta = item.getItemMeta();
+            if (material != null) {
+                predicates.add(cb.equal(root.get("material"), material));
+            }
+            if (meta != null) {
+                if (meta.hasDisplayName()) {
+                    predicates.add(cb.equal(root.get("display_name"), meta.getDisplayName()));
+                }
+
+                if (meta.hasCustomModelData()) {
+                    predicates.add(cb.equal(root.get("custom_model_data"), meta.getCustomModelData()));
+                }
+            }
+
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
     }
 }
