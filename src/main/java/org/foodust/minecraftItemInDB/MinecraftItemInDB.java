@@ -1,26 +1,29 @@
 package org.foodust.minecraftItemInDB;
 
 import lombok.Getter;
-import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.foodust.minecraftItemInDB.command.CommandManager;
-import org.foodust.minecraftItemInDB.module.ItemModule;
 import org.foodust.minecraftItemInDB.db.repository.ItemRepository;
+import org.foodust.minecraftItemInDB.module.ItemModule;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 @Getter
 public final class MinecraftItemInDB extends JavaPlugin {
 
-    private Plugin plugin;
+    private static MinecraftItemInDB plugin;
     private ItemRepository itemRepository;
     private ItemModule itemModule;
     // Spring 컨텍스트
     private AnnotationConfigApplicationContext context;
 
+    public static MinecraftItemInDB getInstance() {
+        return plugin;
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
-        this.plugin = this;
+        plugin = this;
 
 
         // Spring 컨텍스트 초기화
