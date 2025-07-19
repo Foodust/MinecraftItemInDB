@@ -4,6 +4,7 @@ package org.foodust.minecraftItemInDB.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,15 +26,16 @@ public class ItemEntity {
     @Builder.Default
     private String displayName = null;
 
-    @Column(name = "lore")
+    @ElementCollection
+    @CollectionTable(name = "item_lore", joinColumns = @JoinColumn(name = "item_id"))
+    @Column(name = "lore_line")
     @Builder.Default
-    private List<String> lore = null;
+    private List<String> lore = new ArrayList<>();
 
     @Column(name = "custom_model_data")
     @Builder.Default
     private Integer customModelData = null;
 
-    @Lob
     @Column(name = "item_blob", columnDefinition = "BYTEA")
     private byte[] itemBlob;
 

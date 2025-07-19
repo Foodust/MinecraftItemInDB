@@ -32,7 +32,12 @@ public class CommandSub implements TabCompleter {
 
         if (args.length == 2 && (args[0].equalsIgnoreCase(BaseMessage.COMMAND_GET.getMessage()))) {
             ItemData.Items.forEach((aLong, itemEntity) -> {
-                completions.add(itemEntity.getDisplayName());
+                if(itemEntity.getDisplayName() != null){
+                    completions.add(itemEntity.getDisplayName());
+                }
+            });
+            ItemData.Items.forEach((aLong, itemEntity) -> {
+                completions.add(itemEntity.getId().toString());
             });
             return filterCompletions(completions, args[1]);
         }

@@ -7,7 +7,6 @@ import org.foodust.minecraftItemInDB.db.repository.ItemRepository;
 import org.foodust.minecraftItemInDB.module.ItemModule;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-@Getter
 public final class MinecraftItemInDB extends JavaPlugin {
 
     private static MinecraftItemInDB plugin;
@@ -20,11 +19,17 @@ public final class MinecraftItemInDB extends JavaPlugin {
         return plugin;
     }
 
+    public ItemRepository getItemRepository() {
+        return itemRepository;
+    }
+    public ItemModule getItemModule() {
+        return itemModule;
+    }
+
     @Override
     public void onEnable() {
         // Plugin startup logic
         plugin = this;
-
 
         // Spring 컨텍스트 초기화
         try {
@@ -34,7 +39,7 @@ public final class MinecraftItemInDB extends JavaPlugin {
             context.refresh();
 
             itemRepository = context.getBean(ItemRepository.class);
-            itemModule = context.getBean(ItemModule.class);
+            itemModule = new ItemModule(this);
 
             CommandManager commandManager = new CommandManager(this);
 

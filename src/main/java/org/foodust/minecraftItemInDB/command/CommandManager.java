@@ -5,7 +5,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.foodust.minecraftItemInDB.Message.BaseMessage;
 import org.foodust.minecraftItemInDB.MinecraftItemInDB;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -22,7 +21,7 @@ public class CommandManager implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
+    public boolean onCommand( CommandSender commandSender, Command command, String label, String[] args) {
         if (!label.equalsIgnoreCase(BaseMessage.COMMAND_ITEM.getMessage())) {
             return false;
         }

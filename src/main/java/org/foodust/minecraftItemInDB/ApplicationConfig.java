@@ -48,7 +48,7 @@ public class ApplicationConfig {
     public DataSource getPostgresqlDataSource() {
         final DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
-        dataSource.setUrl("jdbc:postgresql://localhost:5432/minecraftItem");
+        dataSource.setUrl("jdbc:postgresql://localhost:5432/minecraftitem");
         dataSource.setUsername("postgres");
         dataSource.setPassword("root");
         return dataSource;

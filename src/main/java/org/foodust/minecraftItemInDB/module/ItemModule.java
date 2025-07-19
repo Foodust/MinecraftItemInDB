@@ -9,7 +9,6 @@ import org.foodust.minecraftItemInDB.MinecraftItemInDB;
 import org.foodust.minecraftItemInDB.db.entity.ItemEntity;
 import org.foodust.minecraftItemInDB.db.repository.ItemRepository;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Component;
 
 import javax.persistence.criteria.Predicate;
 import java.io.ByteArrayInputStream;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-@Component
 public class ItemModule {
     private final MinecraftItemInDB plugin;
     private final ItemRepository itemRepository;
@@ -93,6 +91,20 @@ public class ItemModule {
 
     public ItemStack getItemStackByMaterial(Material material) {
         return null;
+    }
+
+    public List<ItemStack> getItemStackById(String id) {
+        List<ItemStack> items = new ArrayList<>();
+        try {
+            long i = Long.parseLong(id);
+            ItemEntity itemEntity = itemRepository.findById(i).orElse(null);
+            if (itemEntity != null) {
+                ItemStack itemStack = deserializeItem(itemEntity.getItemBlob());
+                items.add(itemStack);
+            }
+        } catch (Exception ignore) {
+        }
+        return items;
     }
 
     public ItemStack getItemStackById(Long id) {

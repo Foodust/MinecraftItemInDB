@@ -1,7 +1,7 @@
 name: MinecraftItemInDB
 version: '1.0-SNAPSHOT'
 main: org.foodust.minecraftItemInDB.MinecraftItemInDB
-api-version: '1.21'
+api-version: '1.20'
 authors: [ Foodust ]
 libraries:
   - "org.postgresql:postgresql:42.7.3"

@@ -48,8 +48,11 @@ public class CommandModule {
         if (!(sender instanceof Player player)) return;
         if (data.length < 1) return;
         String displayName = data[1];
-        List<ItemStack> items = itemModule.getItemStackByDisplayName(displayName);
-        player.getInventory().addItem(items.toArray(new ItemStack[0]));
+        List<ItemStack> displayNameItems = itemModule.getItemStackByDisplayName(displayName);
+        List<ItemStack> idItems = itemModule.getItemStackById(displayName);
+        displayNameItems.addAll(idItems);
+        player.getInventory().addItem(displayNameItems.toArray(new ItemStack[0]));
+
     }
 
     public void commandInfo(CommandSender sender, String[] data) {
